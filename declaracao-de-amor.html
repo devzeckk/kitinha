@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para o Meu Amor</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a romantic feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-lato {
+            font-family: 'Lato', sans-serif;
+        }
+        /* Style for the starry background */
+        #star-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        /* Adding a subtle overlay to make text more readable */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        /* Custom text shadow for a glowing effect */
+        .text-glow {
+            text-shadow: 0 0 8px rgba(236, 72, 153, 0.6), 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        /* Animation for content fading in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        /* Styling for the gallery images */
+        .gallery-img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.7);
+        }
+        /* Styling the modal for the initial click */
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-black">
+
+    <!-- Starry background canvas -->
+    <canvas id="star-canvas"></canvas>
+    <div class="overlay"></div>
+
+    <!-- Modal to ensure user interaction before playing music -->
+    <div id="modal">
+        <h2 class="font-playfair text-4xl mb-4 text-glow">Clique para entrar</h2>
+        <p class="font-lato text-lg mb-8">É melhor com som</p>
+        <button id="enter-button" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300">
+            Entrar
+        </button>
+    </div>
+
+    <!-- Hidden YouTube iframe for the music -->
+    <div id="player" style="display: none;"></div>
+
+    <!-- Main content of the page -->
+    <main id="main-content" style="display: none;" class="w-full p-4 md:p-8">
+        <div class="container mx-auto text-center">
+            
+            <!-- Header section with title and date -->
+            <header class="fade-in my-12">
+                <h1 class="font-playfair text-4xl md:text-6xl text-pink-300 text-glow">Nossas Estrelas Alinhadas</h1>
+                <p class="font-lato text-lg md:text-xl mt-4">Desde 18 de Fevereiro de 2021</p>
+            </header>
+
+            <!-- Countdown Timer -->
+            <section class="fade-in my-12 bg-white/10 backdrop-blur-sm p-6 rounded-2xl max-w-4xl mx-auto">
+                <h2 class="font-playfair text-3xl mb-4 text-glow">Contando cada segundo ao seu lado</h2>
+                <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-white">
+                    <div class="p-4 rounded-lg bg-pink-500/20">
+                        <span id="days" class="text-4xl font-bold">0</span>
+                        <p class="font-lato">Dias</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-pink-500/20">
+                        <span id="hours" class="text-4xl font-bold">0</span>
+                        <p class="font-lato">Horas</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-pink-500/20">
+                        <span id="minutes" class="text-4xl font-bold">0</span>
+                        <p class="font-lato">Minutos</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-pink-500/20">
+                        <span id="seconds" class="text-4xl font-bold">0</span>
+                        <p class="font-lato">Segundos</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Photo gallery and messages section -->
+            <section class="fade-in my-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    
+                    <div class="text-left p-4">
+                        <h3 class="font-playfair text-3xl text-pink-300 mb-3 text-glow">"Wait right here, I'll be back in the morning"</h3>
+                        <p class="font-lato text-lg">Eu nem sabia que estava esperando, mas quando você chegou, a espera acabou. Você trouxe a manhã para a minha noite e desde então, o sol nunca mais se pôs no meu coração.</p>
+                    </div>
+                    <img src="IMG_20241004_213301.jpg" alt="Casal sorrindo feliz à noite" class="gallery-img w-full rounded-2xl shadow-lg">
+                    
+                    <img src="IMG_20250503_202243.jpg" alt="Casal tirando foto no espelho" class="gallery-img w-full rounded-2xl shadow-lg md:col-start-2">
+                    <div class="text-left p-4 md:row-start-2 md:col-start-1">
+                         <h3 class="font-playfair text-3xl text-pink-300 mb-3 text-glow">"Look at the sky tonight, all of the stars have a reason"</h3>
+                        <p class="font-lato text-lg">E a minha razão é você. Cada estrela no céu me lembra do brilho do seu olhar e da sorte que eu tenho por ter encontrado em você a minha constelação particular.</p>
+                    </div>
+                   
+                    <div class="text-left p-4">
+                        <p class="font-lato text-lg">Em cada abraço, em cada beijo, eu encontro meu lugar seguro. O mundo pode ser um caos, mas com você, tudo se acalma.</p>
+                    </div>
+                     <img src="IMG_20250112_172552.jpg" alt="Rapaz beijando a bochecha da moça" class="gallery-img w-full rounded-2xl shadow-lg">
+
+                    <img src="IMG_20250217_092717.jpg" alt="Casal em um momento íntimo" class="gallery-img w-full rounded-2xl shadow-lg md:col-start-2">
+                    <div class="text-left p-4 md:row-start-4 md:col-start-1">
+                        <p class="font-lato text-lg">Você é a minha canção favorita, a poesia que eu não sabia escrever e o amor que eu sempre sonhei em viver. Obrigado por ser a minha estrela mais brilhante.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Footer -->
+            <footer class="fade-in my-12">
+                <p class="font-playfair text-2xl text-pink-300 text-glow">Eu te amo, para sempre.</p>
+                 <p class="font-lato text-lg mt-2">18.02.2021 ~ ∞</p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        // --- Starfield Animation ---
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let stars = [];
+        const numStars = 200;
+
+        // Create star objects
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5 + 0.5,
+                alpha: Math.random(),
+                dAlpha: Math.random() * 0.02 - 0.01 // change in alpha for twinkling
+            });
+        }
+
+        // Animation loop for the stars
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.alpha += star.dAlpha;
+                if (star.alpha <= 0 || star.alpha >= 1) {
+                    star.dAlpha *= -1;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+                
+                // Move stars slowly
+                star.x -= 0.1;
+                if (star.x < 0) {
+                    star.x = canvas.width;
+                }
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // --- Countdown Timer ---
+        const startDate = new Date('2021-02-18T00:00:00');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- YouTube Player API ---
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'hwnvVdkmy4I', // Lil Peep - Star Shopping Video ID
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'hwnvVdkmy4I' // Required for loop to work
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready, but we wait for user click to play
+        }
+
+        // --- Modal and Music Control ---
+        const modal = document.getElementById('modal');
+        const mainContent = document.getElementById('main-content');
+        const enterButton = document.getElementById('enter-button');
+
+        enterButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+            mainContent.style.display = 'block';
+
+            // Load the YouTube API script
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        });
+
+    </script>
+</body>
+</html>
