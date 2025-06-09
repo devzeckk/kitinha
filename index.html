@@ -250,16 +250,19 @@
                     'autoplay': 1,
                     'controls': 0,
                     'loop': 1,
-                    'playlist': 'hwnvVdkmy4I' // Required for loop to work
+                    'playlist': 'hwnvVdkmy4I', // Required for loop to work
+                    // **** A CORREÇÃO ESTÁ AQUI ****
+                    'origin': window.location.origin
                 },
                 events: {
-                    'onReady': onPlayerReady
+                    'onReady': onPlayerReady,
                 }
             });
         }
 
         function onPlayerReady(event) {
             // Player is ready, but we wait for user click to play
+             event.target.playVideo();
         }
 
         // --- Modal and Music Control ---
